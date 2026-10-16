@@ -70,17 +70,20 @@ const vertex = /* glsl */ `
 `
 
 const fragment = /* glsl */ `
-  uniform float uTime;
+  uniform float uPhase;
   uniform float uPulse;
   uniform vec3 uBase;
   uniform vec3 uGlow;
   varying float vS;
   varying float vOff;
   void main() {
-    float speed = 0.35 + uPulse * 1.6;
-    float p = fract(vS * 0.9 - uTime * speed + vOff);
-    float head = pow(p, 14.0);
-    float tail = smoothstep(0.55, 1.0, p) * 0.35;
+    // uPhase is accumulated on the CPU (phase += speed * delta), so changing the
+    // speed while scrolling never makes the pulse position jump (= no flashing).
+    float p = fract(vS * 0.9 - uPhase + vOff);
+    // Pulse fades to 0 at both ends of the cycle, so the fract() wrap is seamless.
+    float fall = 1.0 - smoothstep(0.94, 1.0, p);
+    float head = pow(clamp(p / 0.94, 0.0, 1.0), 14.0) * fall;
+    float tail = smoothstep(0.55, 0.94, p) * 0.35 * fall;
     float glow = (head + tail) * (0.25 + 2.6 * uPulse) + 0.1 * uPulse;
     vec3 col = uBase + uGlow * glow;
     gl_FragColor = vec4(col, 1.0);
@@ -118,7 +121,7 @@ export function SignalTraces() {
 
   const uniforms = useMemo(
     () => ({
-      uTime: { value: 0 },
+      uPhase: { value: 0 },
       uPulse: { value: 0 },
       uBase: { value: new THREE.Color('#1c3a2a') },
       uGlow: { value: new THREE.Color('#6ee7f9') },
@@ -126,12 +129,17 @@ export function SignalTraces() {
     [],
   )
 
-  useFrame((state, delta) => {
+  useFrame((_, rawDelta) => {
     if (!material.current) return
+    // Clamp delta: after a tab switch / frame hitch a huge delta would skip the pulse.
+    const delta = Math.min(rawDelta, 1 / 20)
     const s = getStage(scroll.offset)
     const u = material.current.uniforms
-    u.uTime.value += delta
-    u.uPulse.value = THREE.MathUtils.damp(u.uPulse.value, s.telemetry, 6, delta)
+    // Smooth the pulse intensity, then integrate the phase using the *current* speed.
+    u.uPulse.value = THREE.MathUtils.damp(u.uPulse.value, s.telemetry, 4, delta)
+    const speed = 0.35 + u.uPulse.value * 1.6
+    // Wrap to [0,1): fract() in the shader is periodic, so this is lossless and keeps float precision.
+    u.uPhase.value = (u.uPhase.value + speed * delta) % 1
   })
 
   return (

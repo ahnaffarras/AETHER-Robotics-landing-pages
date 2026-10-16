@@ -1,7 +1,7 @@
 'use client'
 
-import { Suspense, type RefObject } from 'react'
-import { Canvas } from '@react-three/fiber'
+import { Suspense, useEffect, type RefObject } from 'react'
+import { Canvas, useThree } from '@react-three/fiber'
 import { Environment, Lightformer, Sparkles } from '@react-three/drei'
 import * as THREE from 'three'
 import { CameraRig } from './CameraRig'
@@ -27,7 +27,53 @@ function Lights() {
   )
 }
 
-export default function Scene({ eventSource }: { eventSource: RefObject<HTMLElement | null> }) {
+/**
+ * Mounted inside <Suspense>, so it only runs once every sibling (PCB, grid, sparkles)
+ * has resolved. It pre-compiles the shaders, waits for a few real frames and then
+ * reports "ready" so the loading screen can fade out without a hitch.
+ */
+function ReadySignal({ onStage }: { onStage?: (stage: number) => void }) {
+  const gl = useThree((s) => s.gl)
+  const scene = useThree((s) => s.scene)
+  const camera = useThree((s) => s.camera)
+
+  useEffect(() => {
+    let cancelled = false
+    let raf = 0
+    onStage?.(3)
+    const finish = () => {
+      let frames = 0
+      const wait = () => {
+        if (cancelled) return
+        if (++frames >= 3) onStage?.(4)
+        else raf = requestAnimationFrame(wait)
+      }
+      raf = requestAnimationFrame(wait)
+    }
+    Promise.resolve(gl.compileAsync(scene, camera))
+      .catch(() => {})
+      .then(finish)
+    return () => {
+      cancelled = true
+      cancelAnimationFrame(raf)
+    }
+  }, [gl, scene, camera, onStage])
+
+  return null
+}
+
+export default function Scene({
+  eventSource,
+  onStage,
+}: {
+  eventSource: RefObject<HTMLElement | null>
+  onStage?: (stage: number) => void
+}) {
+  // Scene module has been downloaded and mounted.
+  useEffect(() => {
+    onStage?.(1)
+  }, [onStage])
+
   return (
     <Canvas
       eventSource={eventSource as RefObject<HTMLElement>}
@@ -35,6 +81,7 @@ export default function Scene({ eventSource }: { eventSource: RefObject<HTMLElem
       dpr={[1, 2]}
       gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.05 }}
       camera={{ position: [4.6, 6.4, 6.6], fov: 30, near: 0.1, far: 120 }}
+      onCreated={() => onStage?.(2)}
       aria-label="Interactive 3D model of the AETHER-X1 compute module"
     >
       <color attach="background" args={['#050505']} />
@@ -45,6 +92,7 @@ export default function Scene({ eventSource }: { eventSource: RefObject<HTMLElem
         <RoboticsPCB />
         <BenchGrid />
         <Sparkles count={70} scale={[10, 6, 10]} position={[0, 2, 0]} size={1.6} speed={0.25} opacity={0.35} color="#9be8f5" />
+        <ReadySignal onStage={onStage} />
       </Suspense>
     </Canvas>
   )
