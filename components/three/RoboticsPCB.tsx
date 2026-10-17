@@ -217,7 +217,7 @@ function Substrate() {
           </mesh>
         </group>
       ))}
-      <Label lines={['AETHER-X1', 'REV C · 2026']} w={0.9} d={0.22} position={[-1.35, TOP + 0.003, 1.3]} color="#c9d1cc" opacity={0.75} />
+      <Label lines={['AETHER-X5', 'REV C · 2026']} w={0.9} d={0.22} position={[-1.35, TOP + 0.003, 1.3]} color="#c9d1cc" opacity={0.75} />
       <Label lines={['ETHERCAT']} w={0.5} d={0.08} position={[-1.35, TOP + 0.003, 0.58]} rotationY={Math.PI / 2} color="#c9d1cc" opacity={0.6} />
       <Label lines={['CAN-FD']} w={0.4} d={0.08} position={[0.35, TOP + 0.003, 1.1]} color="#c9d1cc" opacity={0.6} />
       <Label lines={['M+ A  M- A  M+ B  M- B']} w={0.9} d={0.08} position={[1.68, TOP + 0.003, 0.85]} rotationY={Math.PI / 2} color="#c9d1cc" opacity={0.6} />

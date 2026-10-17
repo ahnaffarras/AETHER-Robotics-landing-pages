@@ -82,7 +82,7 @@ export default function Scene({
       gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.05 }}
       camera={{ position: [4.6, 6.4, 6.6], fov: 30, near: 0.1, far: 120 }}
       onCreated={() => onStage?.(2)}
-      aria-label="Interactive 3D model of the AETHER-X1 compute module"
+      aria-label="Interactive 3D model of the AETHER-X5 compute module"
     >
       <color attach="background" args={['#050505']} />
       <fog attach="fog" args={['#050505', 18, 60]} />

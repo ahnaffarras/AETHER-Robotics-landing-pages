@@ -79,7 +79,7 @@ export function LoadingScreen({ stage, onDone }: { stage: number; onDone: () => 
     <div
       role="status"
       aria-live="polite"
-      aria-label="Loading AETHER-X1"
+      aria-label="Loading AETHER-X5"
       style={{ transitionDuration: `${FADE_MS}ms` }}
       className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#050505] transition-opacity ease-out ${
         fading ? 'pointer-events-none opacity-0' : 'opacity-100'
@@ -94,7 +94,7 @@ export function LoadingScreen({ stage, onDone }: { stage: number; onDone: () => 
         </span>
 
         <div className="flex flex-col items-center gap-2">
-          <span className="text-sm font-semibold tracking-[0.35em] text-neutral-100">AETHER-X1</span>
+          <span className="text-sm font-semibold tracking-[0.35em] text-neutral-100">AETHER-X5</span>
           <span className="font-mono text-[10px] tracking-[0.3em] text-neutral-500 uppercase">
             Neural Motion Compute Module
           </span>

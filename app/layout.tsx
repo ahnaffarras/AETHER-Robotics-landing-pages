@@ -7,9 +7,9 @@ const geist = Geist({ subsets: ['latin'], variable: '--font-geist-sans' })
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
 
 export const metadata: Metadata = {
-  title: 'AETHER-X1 · The Robotic Nervous System | AETHER Robotics',
+  title: 'AETHER-X5 · The Robotic Nervous System | AETHER Robotics',
   description:
-    'AETHER-X1 Neural Motion Compute Module: 120 TOPS NPU, ROS 2 native, dual EtherCAT and 48V motor drive in a single robotics controller.',
+    'AETHER-X5 Neural Motion Compute Module: 120 TOPS NPU, ROS 2 native, dual EtherCAT and 48V motor drive in a single robotics controller.',
   generator: 'v0.app',
   icons: {
     icon: [

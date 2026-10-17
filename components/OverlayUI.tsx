@@ -60,7 +60,7 @@ export function OverlayUI() {
           <div className="max-w-2xl">
             <Eyebrow>AETHER Robotics · Neural Motion Compute</Eyebrow>
             <h1 className="mt-6 text-5xl font-semibold tracking-tight text-balance md:text-7xl lg:text-8xl">
-              AETHER-X1
+              AETHER-X5
             </h1>
             <p className="mt-3 text-2xl font-light tracking-tight text-neutral-300 text-balance md:text-4xl">
               The Robotic Nervous System.
@@ -154,7 +154,7 @@ export function OverlayUI() {
         <div className="w-full max-w-xl rounded-2xl border border-white/10 bg-[#050505]/70 p-5 backdrop-blur-md md:bg-transparent md:p-0 md:backdrop-blur-none md:border-0">
           <Eyebrow>05 — Spec sheet</Eyebrow>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-            AETHER-X1 Enterprise Dev Kit
+            AETHER-X5 Enterprise Dev Kit
           </h2>
           <dl className="mt-6 grid grid-cols-1 border-t border-white/10 sm:grid-cols-2 sm:gap-x-8">
             {SPECS.map(([k, v]) => (
@@ -166,7 +166,7 @@ export function OverlayUI() {
           </dl>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <a
-              href="mailto:enterprise@aether-robotics.com?subject=AETHER-X1%20Enterprise%20Dev%20Kit"
+              href="mailto:enterprise@aether-robotics.com?subject=AETHER-X5%20Enterprise%20Dev%20Kit"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-neutral-100 px-6 py-3 text-sm font-medium text-neutral-950 transition-colors hover:bg-signal focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
             >
               Order Enterprise Dev Kit

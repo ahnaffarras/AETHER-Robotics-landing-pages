@@ -1,4 +1,4 @@
-const DATASHEET = `AETHER ROBOTICS — AETHER-X1 NEURAL MOTION COMPUTE MODULE
+const DATASHEET = `AETHER ROBOTICS — AETHER-X5 NEURAL MOTION COMPUTE MODULE
 Datasheet rev C · 2026
 ==========================================================
 
@@ -40,7 +40,7 @@ export function GET() {
   return new Response(DATASHEET, {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
-      'Content-Disposition': 'attachment; filename="AETHER-X1-datasheet.txt"',
+      'Content-Disposition': 'attachment; filename="AETHER-X5-datasheet.txt"',
     },
   })
 }

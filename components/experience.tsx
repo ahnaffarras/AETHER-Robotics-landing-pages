@@ -27,7 +27,7 @@ export function Experience() {
 
   return (
     <main ref={root} className="relative h-dvh w-full overflow-hidden bg-[#050505]">
-      <p className="sr-only">AETHER-X1 Neural Motion Compute Module by AETHER Robotics</p>
+      <p className="sr-only">AETHER-X5 Neural Motion Compute Module by AETHER Robotics</p>
       <div className="absolute inset-0">
         <Scene eventSource={root} onStage={onStage} />
       </div>
